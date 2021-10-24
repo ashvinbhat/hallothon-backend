@@ -23,6 +23,9 @@ class User(db.Model):
     email = db.Column(db.String(100), nullable=False)
     password = db.Column(db.String(80), unique=False)
     grade = db.Column(db.Integer)
+    points = db.Column(db.Integer, nullable=True, default=100)
+    deposits = db.Column(db.Integer, nullable=True)
+    withdraw = db.Column(db.Integer, nullable=True)
     admin = db.Column(db.Boolean, unique=False)
 
 
@@ -167,9 +170,19 @@ def login():
     return make_response('Not verified', 401, {'WWW-Authenticate': 'Basic realm="Login required"'})
 
 
-""" @app.route("/process", methods="POST")
+@app.route("/deposit", methods="POST")
 def process():
-    details = request.get_json() """
+    details = request.get_json()
+    deposits = details['depositvalue']
+    points = details['points']
+    if deposits < points:
+        return jsonify({"message" : "Well done! You have successfully deposited your points into the bank"})
+    return jsonify({"message" : "You do not have enough points to deposit"})
+
+    
+
 
 if __name__ == "__main__":
     app.run(debug=True)
+
+    

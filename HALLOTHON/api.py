@@ -171,18 +171,24 @@ def login():
 
 
 @app.route("/deposit", methods=["POST"])
-def deposit():
+def process():
     details = request.get_json()
     deposits = details['depositvalue']
     points = details['points']
     if deposits < points:
         return jsonify({"message" : "Well done! You have successfully deposited your points into the bank"})
-    return jsonify({"message" : "You do not have enough points to deposit"})
+    return jsonify({"message" : "You do not have enough points to deposit"}), 404
 
-    
+
+@app.route("/withdraw", methods=["POST"])
+def withdraw():
+    details = request.get_json()
+    withdraw = details['withdrawvalue']
+    points = details['points']
+    if withdraw < points:
+        return jsonify({"message" : "Well done! You have successfully withdrawn your points from the bank"})
+    return jsonify({"message" : "You do not have enough points to withdraw"}), 404
 
 
 if __name__ == "__main__":
     app.run(debug=True)
-
-    

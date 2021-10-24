@@ -170,8 +170,8 @@ def login():
     return make_response('Not verified', 401, {'WWW-Authenticate': 'Basic realm="Login required"'})
 
 
-@app.route("/deposit", methods="POST")
-def process():
+@app.route("/deposit", methods=["POST"])
+def deposit():
     details = request.get_json()
     deposits = details['depositvalue']
     points = details['points']
